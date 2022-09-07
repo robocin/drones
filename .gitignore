@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# drone-autopilot
+PX4-Autopilot/
+QGroundControl.AppImage
