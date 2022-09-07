@@ -20,9 +20,13 @@ Fixes # (issue)
 
 - [ ] Simulation
 - [ ] Real
+- [ ] N/A
 
 **Test Configuration**:
-* drone-autopilot version:
-* Hardware:
-* SDK: Python MAVSDK
+* SDK: Python MAVSDK + PX4-Autopilot
+* PX4-Autopilot version: v1.13.0
+* drone-autopilot version: 
+* Ground station: QGroundControl
+* Hardware: Pixhawk 6X + Jetson Nano
+* SITL: JMAVSim
 * Camera: 
