@@ -69,7 +69,7 @@ def download_qgroundcontrol():
         cprint('\x1B[32m')('[OK] QGroundControl downloaded')
 
 def update_qgroundcontrol_permissions():
-    cprint('\x1B[34m')('updating QGroundControl permissions...')
+    cprint('\x1B[34m')('[UPDATING] QGroundControl permissions...')
     try:
         run('chmod +x ./QGroundControl.AppImage')
     except:
@@ -104,6 +104,7 @@ def move_everything_except_script():
 
 def install_sequence():
     run('cd ..')
+    
     # Check permissions
     check_is_sudo()
 
@@ -116,7 +117,7 @@ def install_sequence():
     # Communication libraries
     install_comm_mavlink()
     install_comm_mavsdk
-
+    
     # Move files
     run('cd scripts/')
 
