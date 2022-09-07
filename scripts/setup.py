@@ -1,5 +1,4 @@
 import os
-import re
 import sys
 import subprocess
 from typing import List
@@ -40,6 +39,26 @@ def check_dependencies():
 
 
 def install_sequence():
+    check_is_sudo()
+
+    # Flight stack
+    cprint('\x1B[34m')('installing PX4-Autopilot')
+    try:
+        run('git clone https://github.com/PX4/PX4-Autopilot.git --recursive')
+    except:
+        cprint('\x1B[31m')('[ERROR] could not install PX4-Autopilot')
+    else:
+        cprint('\x1B[32m')('[OK] PX4-Autopilot installed')
+
+    cprint('\x1B[34m')('building PX4-Autopilot')
+    try:
+        run('bash ./PX4-Autopilot/Tools/setup/ubuntu.sh')
+    except:
+        cprint('\x1B[31m')('[ERROR] could not install PX4-Autopilot')
+    else:
+        cprint('\x1B[32m')('[OK] PX4-Autopilot installed')
+    
+    # Communication libraries
     cprint('\x1B[34m')('installing mavlink...')
     try:
         run('pip3 install mavlink')
@@ -48,7 +67,6 @@ def install_sequence():
     else:
         cprint('\x1B[32m')('[OK] mavlink installed')
 
-    
     cprint('\x1B[34m')('installing mavsdk...')
     try:
         run('pip3 install mavsdk')
@@ -56,9 +74,7 @@ def install_sequence():
         cprint('\x1B[31m')('[ERROR] could not install mavsdk')
     else:
         cprint('\x1B[32m')('[OK] mavsdk installed')
-    
 
 
 if __name__ == '__main__':
-    check_is_sudo()
     install_sequence()
