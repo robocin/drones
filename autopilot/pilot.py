@@ -2,69 +2,17 @@ import asyncio
 import time
 from mavsdk import System 
 from abc import ABC
-from constants import Mission, Constants
+from constants import Mission, Constants, MessageType
 from debugger import STDOUT
+
 
 class SafePilot(ABC):
     def __init__(self, mission_type: Mission) -> None:
         self.mission_type = mission_type
-        self.system = System()
-        self.thread_listener = None
-        self.epoch = time.time()
-
-
-    async def connect(self):
-        await self.system.connect(system_address = self.__system_address())
-        self.thread_listener = asyncio.ensure_future(self.__print_status_text())
-
-        STDOUT.debug(self.__ctime(), self.CONTEXT, "Waiting for drone to connect")
-        async for state in self.system.core.connection_state():
-            if state.is_connected:
-                STDOUT.debug(self.__ctime(), self.CONTEXT, "Connected to drone!")
-                break
-
-
-    def __system_address(self):
-        return "{}://{}".format(Constants.COMM_DEFAULT_PROTOCOL, Constants.COMM_DEFAULT_PORT)
-
-
-    def __ctime(self):
-        return time.time() - self.epoch
-
-
-    async def __print_status_text(self):
-        try:
-            async for status_text in self.system.telemetry.status_text():
-                print(f"Status: {status_text.type}: {status_text.text}")
-        except asyncio.CancelledError:
-            return
-         
-
-    async def arm(self):
-        STDOUT.debug(self.__ctime(), self.CONTEXT, "Arming")
-        await self.system.action.arm()
-
-
-    async def takeoff(self):
-        self.__ensure_safe_takeoff_height()
-        STDOUT.debug(self.__ctime(), self.CONTEXT, "Taking off")
-        await self.system.action.takeoff()
 
 
     def __ensure_safe_takeoff_height():
         raise NotImplementedError
-
-
-    async def land(self):
-        pass
-
-
-    async def change_flight_mode(self):
-        pass
-
-
-    async def failsafe(self):
-        pass
 
 
     CONTEXT = "PILOT"
@@ -73,22 +21,63 @@ class SafePilot(ABC):
 class RobocinPilot(SafePilot):
     def __init__(self, mission_type: Mission) -> None:
         super().__init__(mission_type)
+        self.drone: System = System()
+    
+
+    async def start_connection(self):
+        STDOUT.debug(self.CONTEXT, "Connecting to {}".format(Constants.COMM_CONN_STRING))
+        await self.drone.connect(system_address = Constants.COMM_CONN_STRING)
+        self.thread_listener = asyncio.ensure_future(self.__print_status_text())
+        
+        STDOUT.debug(self.CONTEXT, "Waiting for drone to connect")
+        async for state in self.drone.core.connection_state():
+            if state.is_connected:
+                STDOUT.debug(self.CONTEXT, "Connected to drone!")
+                break
+
+    
+    async def arm(self):
+        STDOUT.debug(self.CONTEXT, "Arming")
+        await self.drone.action.arm()
+        STDOUT.debug(self.CONTEXT, "Drone armed")
+        STDOUT.debug(MessageType.WARNING, "Step back motor starting")
 
 
-    def land(self):
-        return super().land()
+    # async def takeoff(self):
+    #     self.__ensure_safe_takeoff_height()
+    #     STDOUT.debug(self.CONTEXT, "Taking off")
+    #     await self.drone.action.takeoff()
 
 
-    def takeoff(self):
-        return super().takeoff()
+    # async def land(self):
+    #     await super().land()
 
 
-    def change_flight_mode(self):
-        return super().change_flight_mode()
+    # async def takeoff(self):
+    #     await super().takeoff()
 
 
-    def failsafe(self):
-        return super().failsafe()
+    # def __ensure_safe_takeoff_height():
+    #     raise NotImplementedError
+
+
+    # async def change_flight_mode(self):
+    #     await super().change_flight_mode()
+
+
+    # async def failsafe(self):
+    #     await super().failsafe()
+
+    # async def idle(self, time):
+    #     await asyncio.sleep(time)
+
+
+    async def __print_status_text(self):
+        try:
+            async for status_text in self.drone.telemetry.status_text():
+                print(f"Status: {status_text.type}: {status_text.text}")
+        except asyncio.CancelledError:
+            return
 
 
     CONTEXT = "ROBOCIN_PILOT"

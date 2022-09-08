@@ -29,6 +29,26 @@ class Mission:
             case 5: 
                 return "TECHNICAL_CHALLENGE"
 
+class MessageType:
+    """Message types for debugger
+    """
+    WARNING = 0
+    ERROR = 1
+    LOG = 2
+
+    @staticmethod
+    def as_string(message):
+        match message:
+            case 0:
+                return "WARNING"
+            case 1:
+                return "ERROR"
+            case 2:
+                return "LOG"
+            case _:
+                return message
+            
+ 
 
 class Constants:
     """Constant values for reference
@@ -39,6 +59,7 @@ class Constants:
 
     COMM_DEFAULT_PORT = 14540
     COMM_DEFAULT_PROTOCOL = "udp"
+    COMM_CONN_STRING = "{}://:{}".format(COMM_DEFAULT_PROTOCOL, COMM_DEFAULT_PORT)
 
     DRONE_MAX_SPEED_MS = 1
     DRONE_MIN_SPEED_MS = 0.2
