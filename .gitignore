@@ -34,3 +34,4 @@
 # drone-autopilot
 PX4-Autopilot/
 QGroundControl.AppImage
+__pycache__/
