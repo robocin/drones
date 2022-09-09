@@ -40,40 +40,40 @@ class Navigation:
             return
 
         STDOUT.debug(cls.CONTEXT,"Head north")
-        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -2.0, 0.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, Constants.DRONE_SEARCH_NED_HEIGHT, 0.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Go to north")
-        await drone.offboard.set_position_ned(PositionNedYaw(2.0, 0.0, -2.0, 0.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, 0.0, Constants.DRONE_SEARCH_NED_HEIGHT, 0.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Head east")
-        await drone.offboard.set_position_ned(PositionNedYaw(2.0, 0.0, -2.0, 90.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, 0.0, Constants.DRONE_SEARCH_NED_HEIGHT, 90.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Go to east")
-        await drone.offboard.set_position_ned(PositionNedYaw(2.0, 2.0, -2.0, 90.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, Constants.DRONE_SEARCH_NED_HEIGHT, 90.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Head south")
-        await drone.offboard.set_position_ned(PositionNedYaw(2.0, 2.0, -2.0, 180.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, Constants.DRONE_SEARCH_NED_HEIGHT, 180.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Go to south")
-        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 2.0, -2.0, 180.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(0.0, Constants.DRONE_SEARCH_SQUARE_EDGE_METERS, Constants.DRONE_SEARCH_NED_HEIGHT, 180.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Head west")
-        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 2.0, -2.0, -90.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(0.0, Constants.DRONE_SEARCH_SQUARE_EDGE_METERS , Constants.DRONE_SEARCH_NED_HEIGHT, -90.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Go to west")
-        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -2.0, -90.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, Constants.DRONE_SEARCH_NED_HEIGHT, -90.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
         STDOUT.debug(cls.CONTEXT,"Head north")
-        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, -2.0, 0.0))
-        await asyncio.sleep(2)
+        await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, Constants.DRONE_SEARCH_NED_HEIGHT, 0.0))
+        await asyncio.sleep(Constants.DRONE_SEARCH_IDLE_TIME_S)
 
 
         STDOUT.debug(cls.CONTEXT, "Stopping offboard")
