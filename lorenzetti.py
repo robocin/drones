@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 async def init():
-    lorenzetti = RobocinPilot(Mission.SEARCH)
+    lorenzetti = RobocinPilot(Mission.THRUST)
     await lorenzetti.start_connection()
     await lorenzetti.start_mission()
     

@@ -3,22 +3,22 @@ class Mission:
         
     Each mission represents a type of test, event phase or technical challenge
     """
-    CALIBRATION = -1
-    TESTING = 0
+    CALIBRATION = 0
     MISSION_1 = 1
     MISSION_2 = 2
     MISSION_3 = 3
     MISSION_4 = 4
     TECHNICAL_CHALLENGE = 5
     SEARCH = 6
+    THRUST = 7
 
     @staticmethod
     def as_string(mission):
         match mission:
             case -1:
-                return "CALIBRATION"
+                return 
             case 0:
-                return "TESTING"
+                return "CALIBRATION"
             case 1:
                 return "MISSION_1"
             case 2:
@@ -29,6 +29,10 @@ class Mission:
                 return "MISSION_4"
             case 5: 
                 return "TECHNICAL_CHALLENGE"
+            case 6:
+                return "SEARCH"
+            case 7:
+                return "THRUST"
 
 class MessageType:
     """Message types for debugger
@@ -66,7 +70,8 @@ class Constants:
     DRONE_MIN_SPEED_MS = 0.2
     DRONE_TAKEOFF_SPEED_MS = 1
     DRONE_LAND_SPEED_MS = 1
-    DRONE_TAKEOFF_HEIGHT_METERS = 1
+    DRONE_TAKEOFF_HEIGHT_METERS = 5
+    DRONE_LARC_TAKEOFF_HEIGHT_METERS = 1
     DRONE_SAFE_TAKEOFF_HEIGHT_METERS = 0.2
     DRONE_SEARCH_RADIUS_METERS = 1
     DRONE_SEARCH_IDLE_TIME_S = 2
