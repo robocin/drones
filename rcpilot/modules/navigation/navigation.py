@@ -1,7 +1,7 @@
 import asyncio
-from autopilot.debugger import STDOUT
-from autopilot.constants import Constants
-from autopilot.constants import MessageType
+from rcpilot.utils.debugger import STDOUT
+from rcpilot.environment.environment import Constants
+from rcpilot.environment.environment import MessageType
 from mavsdk.offboard import PositionNedYaw, OffboardError, Attitude
 
 class Navigation:

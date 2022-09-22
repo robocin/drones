@@ -1,13 +1,13 @@
 import asyncio
 from mavsdk import System
 from abc import ABC
-from autopilot.commander.decision import Decision
-from autopilot.commander.navigation import Navigation
-from autopilot.commander.vision import Vision
-from autopilot.constants import MessageType
-from autopilot.constants import Mission
-from autopilot.constants import Constants
-from autopilot.debugger import STDOUT
+from rcpilot.modules.decision.decision import Decision
+from rcpilot.modules.navigation.navigation import Navigation
+from rcpilot.modules.vision.vision import Vision
+from rcpilot.environment.environment import MessageType
+from rcpilot.environment.environment import Mission
+from rcpilot.environment.environment import Constants
+from rcpilot.utils.debugger import STDOUT
 #from autopilot import Decision, Navigation, Vision, Mission, Constants, MessageType, STDOUT
 
 

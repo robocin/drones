@@ -1,6 +1,6 @@
 import asyncio
-from autopilot.pilot import RobocinPilot
-from autopilot.constants import Mission
+from rcpilot.pilot import RobocinPilot
+from rcpilot.environment.environment import Mission
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 

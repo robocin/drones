@@ -1,7 +1,7 @@
 import asyncio
-from autopilot.constants import Constants, MessageType, Mission
-from autopilot.commander.navigation import Navigation
-from autopilot.debugger import STDOUT
+from rcpilot.environment.environment import Constants, MessageType, Mission
+from rcpilot.modules.navigation.navigation import Navigation
+from rcpilot.utils.debugger import STDOUT
 
 class Decision:
     async def init(self, mission_type, drone):
