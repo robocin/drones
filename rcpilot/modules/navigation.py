@@ -7,6 +7,7 @@ from rcpilot.environment.environment import Constants
 from rcpilot.environment.environment import MessageType
 from mavsdk.offboard import PositionNedYaw, OffboardError, Attitude
 
+
 class Navigation:
     @classmethod
     async def arm(cls, drone):
@@ -15,18 +16,15 @@ class Navigation:
         Debug(cls.CONTEXT)("Drone armed")
         Debug(MessageType.WARNING)("Step back motor starting")
 
-
     @classmethod
     async def takeoff(cls, drone):
         Debug(cls.CONTEXT)("Taking off")
         await drone.action.takeoff()
 
-
     @classmethod
     async def land(cls, drone):
         Debug(cls.CONTEXT)("Landing")
         await drone.action.land()
-
 
     @classmethod
     async def start_offboard_with_ned(cls, drone):
@@ -42,7 +40,6 @@ class Navigation:
             await drone.action.disarm()
             return
 
-    
     @classmethod
     async def search_square(cls, drone):
         Debug(cls.CONTEXT)("Setting initial setpoint")
@@ -106,11 +103,9 @@ class Navigation:
         Debug(cls.CONTEXT)("Disarming")
         await drone.action.disarm()
 
-    
     @classmethod
     async def set_thrust(cls, drone, thrust_level):
         Debug(cls.CONTEXT)(f'Set thrust to {thrust_level}')
         await drone.offboard.set_attitude(Attitude(0.0, 0.0, 0.0, thrust_level))
-        
-    
+
     CONTEXT = "ROBOCIN_NAVIGATION"

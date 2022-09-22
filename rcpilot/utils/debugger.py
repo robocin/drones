@@ -4,6 +4,7 @@
 from rcpilot.environment.environment import MessageType
 from colorama import Fore, Back
 
+
 class Debug:
     def __init__(self, message_type) -> None:
         self.message_type = message_type
