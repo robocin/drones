@@ -1,3 +1,6 @@
+"""Created by felipe-nunes on 22/09/2022
+"""
+
 from rcpilot.environment.environment import MessageType
 from colorama import Fore, Back
 
@@ -28,4 +31,6 @@ class Debug:
                 return Back.LIGHTYELLOW_EX, Fore.BLACK
             case MessageType.ERROR:
                 return Back.LIGHTRED_EX, Fore.BLACK
+            case MessageType.LOG:
+                return Back.LIGHTBLACK_EX, Fore.WHITE
 

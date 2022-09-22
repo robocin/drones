@@ -1,7 +1,10 @@
+"""Created by felipe-nunes on 22/09/2022
+"""
+
 import asyncio
 from rcpilot.environment.environment import Constants, MessageType, Mission
-from rcpilot.modules.navigation.navigation import Navigation
-from rcpilot.utils.debugger import STDOUT
+from rcpilot.modules.navigation import Navigation
+from rcpilot.utils.debugger import Debug
 
 class Decision:
     async def init(self, mission_type, drone):
@@ -17,7 +20,7 @@ class Decision:
                 await self.search_pre_flight(drone)
                 await self.search_mission(drone)
                 await self.search_pos_flight(drone)
-                STDOUT.debug(self.CONTEXT,"Mission search ended")
+                Debug(self.CONTEXT)("Mission search ended")
                 return
 
             case Mission.THRUST:
@@ -27,7 +30,7 @@ class Decision:
                 return
 
             case _:
-                STDOUT.debug(MessageType.ERROR, "NO MISSION")
+                Debug(MessageType.ERROR)("NO MISSION")
                 return
 
 
@@ -46,7 +49,7 @@ class Decision:
 
 
     async def search_pre_flight(self, drone):
-        STDOUT.debug(self.CONTEXT, "Search pre flight")
+        Debug(self.CONTEXT)("Search pre flight")
         await drone.action.set_takeoff_altitude(Constants.DRONE_TAKEOFF_HEIGHT_METERS)
         await Navigation.arm(drone)
         await Navigation.takeoff(drone)
@@ -54,24 +57,24 @@ class Decision:
 
     
     async def search_mission(self, drone):
-        STDOUT.debug(self.CONTEXT, "Search mission")
+        Debug(self.CONTEXT)("Search mission")
         await Navigation.search_square(drone)
         
 
     async def search_pos_flight(self, drone):
-        STDOUT.debug(self.CONTEXT, "Search pos flight")
+        Debug(self.CONTEXT)("Search pos flight")
         await Navigation.land(drone)
         exit(0)
 
 
     async def thurst_pre_flight(self, drone):
-        STDOUT.debug(self.CONTEXT, "Thrust pre flight")
+        Debug(self.CONTEXT)("Thrust pre flight")
         await drone.action.set_takeoff_altitude(Constants.DRONE_TAKEOFF_HEIGHT_METERS)
         await Navigation.arm(drone)
 
 
     async def thrust_mission(self, drone):
-        STDOUT.debug(self.CONTEXT, "Thrust mission")
+        Debug(self.CONTEXT)("Thrust mission")
         await Navigation.start_offboard_with_ned(drone)
         await Navigation.set_thrust(drone, thrust_level = 0.2)
         await asyncio.sleep(5)
@@ -90,7 +93,7 @@ class Decision:
 
 
     async def thrust_pos_flight(self, drone):
-        STDOUT.debug(self.CONTEXT, "Search pos flight")
+        Debug(self.CONTEXT)("Search pos flight")
         await Navigation.land(drone)
         exit(0)
         

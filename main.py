@@ -1,6 +1,16 @@
-from email.message import Message
-from rcpilot.environment.environment import MessageType
-from rcpilot.utils.debugger import Debug
-from rcpilot.environment.environment import MessageType
+import asyncio
+from rcpilot.pilot import RobocinPilot
+from rcpilot.environment.environment import Mission
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
-Debug(MessageType.ERROR)("Hello world.")
+
+async def init():
+    lorenzetti = RobocinPilot(Mission.THRUST)
+    await lorenzetti.start_connection()
+    await lorenzetti.start_mission()
+    
+
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(init())

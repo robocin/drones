@@ -1,13 +1,13 @@
 import asyncio
 from mavsdk import System
 from abc import ABC
-from rcpilot.modules.decision.decision import Decision
-from rcpilot.modules.navigation.navigation import Navigation
-from rcpilot.modules.vision.vision import Vision
+from rcpilot.modules.decision import Decision
+from rcpilot.modules.navigation import Navigation
+from rcpilot.modules.vision import Vision
 from rcpilot.environment.environment import MessageType
 from rcpilot.environment.environment import Mission
 from rcpilot.environment.environment import Constants
-from rcpilot.utils.debugger import STDOUT
+from rcpilot.utils.debugger import Debug
 #from autopilot import Decision, Navigation, Vision, Mission, Constants, MessageType, STDOUT
 
 
@@ -32,14 +32,14 @@ class RobocinPilot(SafePilot):
 
 
     async def start_connection(self):
-        STDOUT.debug(self.CONTEXT, "Connecting to {}".format(Constants.COMM_CONN_STRING))
+        Debug(self.CONTEXT)("Connecting to {}".format(Constants.COMM_CONN_STRING))
         await self.system.connect(system_address = Constants.COMM_CONN_STRING)
         self.thread_listener = asyncio.ensure_future(self.__print_status_text())
         
-        STDOUT.debug(self.CONTEXT, "Waiting for drone to connect")
+        Debug(self.CONTEXT)("Waiting for drone to connect")
         async for state in self.system.core.connection_state():
             if state.is_connected:
-                STDOUT.debug(self.CONTEXT, "Connected to drone!")
+                Debug(self.CONTEXT)("Connected to drone!")
                 break
 
 
