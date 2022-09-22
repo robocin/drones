@@ -1,6 +1,15 @@
+"""
+    Enum classes for:
+        - constant values for mission types
+        - constant values used in navigation
+        - constant values used in decision
+        - constant values for debug messages
+"""
+
+
 class Mission:
     """Missions of drone control and LARC event phases
-        
+
     Each mission represents a type of test, event phase or technical challenge
     """
     CALIBRATION = 0
@@ -16,7 +25,7 @@ class Mission:
     def as_string(mission):
         match mission:
             case -1:
-                return 
+                return
             case 0:
                 return "CALIBRATION"
             case 1:
@@ -27,12 +36,13 @@ class Mission:
                 return "MISSION_3"
             case 4:
                 return "MISSION_4"
-            case 5: 
+            case 5:
                 return "TECHNICAL_CHALLENGE"
             case 6:
                 return "SEARCH"
             case 7:
                 return "THRUST"
+
 
 class MessageType:
     """Message types for debugger
@@ -52,8 +62,7 @@ class MessageType:
                 return "LOG"
             case _:
                 return message
-            
- 
+
 
 class Constants:
     """Constant values for reference
@@ -64,7 +73,8 @@ class Constants:
 
     COMM_DEFAULT_PORT = 14540
     COMM_DEFAULT_PROTOCOL = "udp"
-    COMM_CONN_STRING = "{}://:{}".format(COMM_DEFAULT_PROTOCOL, COMM_DEFAULT_PORT)
+    COMM_CONN_STRING = "{}://:{}".format(
+        COMM_DEFAULT_PROTOCOL, COMM_DEFAULT_PORT)
 
     DRONE_MAX_SPEED_MS = 1
     DRONE_MIN_SPEED_MS = 0.2
@@ -81,4 +91,3 @@ class Constants:
     SAFE_NET_LATERAL_DISTANCE_CENTIMETERS = 50
     SAFE_NET_ABOVE_DISTANCE_CENTIMETERS = 50
     SAFE_OFFBOARD_TIMEOUT_SECONDS = 10
-
