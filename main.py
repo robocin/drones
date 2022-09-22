@@ -5,14 +5,15 @@ Here the RobocinPilot is instantiated and the mission is started.
 """
 
 import asyncio
-from rcpilot.pilot import RobocinPilot
-from rcpilot.environment.environment import Mission
 import warnings
+
+from rcpilot.entities.drone import Drone
+from rcpilot.utils.mission_type import MissionType
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 async def init():
-    lorenzetti = RobocinPilot(Mission.THRUST)
+    lorenzetti = Drone(MissionType.THRUST)
     await lorenzetti.start_connection()
     await lorenzetti.start_mission()
 

@@ -1,4 +1,5 @@
-"""
+"""Created by felipe-nunes on 22/09/2022
+
     Drone representation class. 
     
     Has vision, decision and navigation modules that together
@@ -13,11 +14,11 @@ from abc import ABC
 from rcpilot.modules.decision import Decision
 from rcpilot.modules.navigation import Navigation
 from rcpilot.modules.vision import Vision
+from rcpilot.environment import Arena, Communication, Navigation, Takeoff, Land
 from rcpilot.environment.environment import MessageType
 from rcpilot.environment.environment import Mission
 from rcpilot.environment.environment import Constants
 from rcpilot.utils.debugger import Debug
-#from autopilot import Decision, Navigation, Vision, Mission, Constants, MessageType, STDOUT
 
 
 class SafePilot(ABC):
@@ -27,10 +28,10 @@ class SafePilot(ABC):
     def __ensure_safe_takeoff_height():
         raise NotImplementedError
 
-    CONTEXT = "PILOT"
+    CONTEXT = "SAFE_PILOT"
 
 
-class RobocinPilot(SafePilot):
+class Drone(SafePilot):
     def __init__(self, mission_type: Mission) -> None:
         super().__init__(mission_type)
         self.system: System = System()
@@ -38,10 +39,12 @@ class RobocinPilot(SafePilot):
         self.decision: Decision = Decision()
 
     async def start_connection(self):
-        Debug(self.CONTEXT)("Connecting to {}".format(Constants.COMM_CONN_STRING))
-        await self.system.connect(system_address = Constants.COMM_CONN_STRING)
-        self.thread_listener = asyncio.ensure_future(self.__print_status_text())
-        
+        Debug(self.CONTEXT)("Connecting to {}".format(
+            Communication.CONN_STRING))
+        await self.system.connect(system_address=Communication.CONN_STRING)
+        self.thread_listener = asyncio.ensure_future(
+            self.__print_status_text())
+
         Debug(self.CONTEXT)("Waiting for drone to connect")
         async for state in self.system.core.connection_state():
             if state.is_connected:
@@ -59,4 +62,4 @@ class RobocinPilot(SafePilot):
         except asyncio.CancelledError:
             return
 
-    CONTEXT = "ROBOCIN_PILOT"
+    CONTEXT = "DRONE"

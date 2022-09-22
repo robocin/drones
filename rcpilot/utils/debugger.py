@@ -1,7 +1,7 @@
 """Created by felipe-nunes on 22/09/2022
 """
 
-from rcpilot.environment.environment import MessageType
+from rcpilot.utils.message_type import MessageType
 from colorama import Fore, Back
 
 
@@ -12,13 +12,15 @@ class Debug:
     def __call__(self, *args, **kwargs):
         background, foreground = self.__color_select(self.message_type)
 
-        header = background + foreground + '[' + MessageType.as_string(self.message_type) + ']' + Back.RESET + Fore.RESET
+        header = background + foreground + \
+            '[' + MessageType.as_string(self.message_type) + \
+            ']' + Back.RESET + Fore.RESET
         debug = "{} {}".format(header, *args, **kwargs)
         print(debug)
 
     def __color_select(self, context):
         match(context):
-            case "ROBOCIN_PILOT":
+            case "DRONE":
                 return Back.LIGHTGREEN_EX, Fore.BLACK
             case "ROBOCIN_VISION":
                 return Back.LIGHTBLUE_EX, Fore.BLACK
@@ -34,4 +36,3 @@ class Debug:
                 return Back.LIGHTRED_EX, Fore.BLACK
             case MessageType.LOG:
                 return Back.LIGHTBLACK_EX, Fore.WHITE
-

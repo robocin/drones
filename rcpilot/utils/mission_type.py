@@ -1,7 +1,8 @@
 """Created by felipe-nunes on 22/09/2022
 """
 
-class Mission:
+
+class MissionType:
     CALIBRATION = 0
     MISSION_1 = 1
     MISSION_2 = 2
@@ -15,7 +16,7 @@ class Mission:
     def as_string(mission):
         match mission:
             case -1:
-                return 
+                return
             case 0:
                 return "CALIBRATION"
             case 1:
@@ -26,7 +27,7 @@ class Mission:
                 return "MISSION_3"
             case 4:
                 return "MISSION_4"
-            case 5: 
+            case 5:
                 return "TECHNICAL_CHALLENGE"
             case 6:
                 return "SEARCH"
