@@ -16,11 +16,15 @@ class Debug:
             '[' + MessageType.as_string(self.message_type) + \
             ']' + Back.RESET + Fore.RESET
         debug = "{} {}".format(header, *args, **kwargs)
-        print(debug)
+
+        def print_debug(debug):
+            print(debug)
+
+        return print_debug(debug)
 
     def __color_select(self, context):
         match(context):
-            case "DRONE":
+            case "ROBOCIN_PILOT":
                 return Back.LIGHTGREEN_EX, Fore.BLACK
             case "ROBOCIN_VISION":
                 return Back.LIGHTBLUE_EX, Fore.BLACK
@@ -36,3 +40,6 @@ class Debug:
                 return Back.LIGHTRED_EX, Fore.BLACK
             case MessageType.LOG:
                 return Back.LIGHTBLACK_EX, Fore.WHITE
+            case _ :
+                return Back.LIGHTBLACK_EX, Fore.WHITE
+

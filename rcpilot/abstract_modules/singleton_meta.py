@@ -2,7 +2,7 @@
 """
 
 
-class SingletonMeta(type):
+class SingletonMeta:
     _instances = {}
 
     def __call__(cls, *args, **kwargs):

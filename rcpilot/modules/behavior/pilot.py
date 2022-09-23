@@ -6,13 +6,15 @@
 """
 
 import asyncio
+import warnings
+
 from mavsdk import System
 from rcpilot.entities.drone.drone import Drone
 from rcpilot.environment import Communication
 from rcpilot.modules.behavior.state_machines.state_machine import StateMachine
 from rcpilot.utils.debugger import Debug
 from rcpilot.utils.mission_type import MissionType
-
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 class RobocinPilot:
     _state_machine = StateMachine()
