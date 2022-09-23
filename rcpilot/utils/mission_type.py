@@ -3,6 +3,7 @@
 
 
 class MissionType:
+    NO_MISSION = -1
     CALIBRATION = 0
     MISSION_1 = 1
     MISSION_2 = 2

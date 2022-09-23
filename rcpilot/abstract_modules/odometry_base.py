@@ -1,13 +1,11 @@
-"""Created by felipe-nunes on 22/09/2022
-"""
-
 from abc import ABC, abstractmethod
 from rcpilot.abstract_modules.singleton_meta import SingletonMeta
+from rcpilot.packages.odometry_output import OdometryOutput
 
 
-class VisionBase(ABC, SingletonMeta):
+class OdometryBase(ABC, SingletonMeta):
     @abstractmethod
-    async def _get_package(self):
+    async def _get_package(self) -> OdometryOutput:
         pass
 
     @abstractmethod

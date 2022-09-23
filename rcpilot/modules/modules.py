@@ -1,4 +1,2 @@
 """Created by felipe-nunes on 22/09/2022
 """
-
-from rcpilot.modules import behavior

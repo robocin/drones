@@ -2,9 +2,10 @@
 """
 
 import asyncio
-from rcpilot.environment.environment import Constants, MessageType, Mission
+from rcpilot.environment import Arena, Communication, Land, Navigation, Takeoff
 from rcpilot.modules.navigation import Navigation
 from rcpilot.utils.debugger import Debug
+
 
 class Decision:
     async def init(self, mission_type, drone):
