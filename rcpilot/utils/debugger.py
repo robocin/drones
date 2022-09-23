@@ -17,10 +17,7 @@ class Debug:
             ']' + Back.RESET + Fore.RESET
         debug = "{} {}".format(header, *args, **kwargs)
 
-        def print_debug(debug):
-            print(debug)
-
-        return print_debug(debug)
+        print(debug) 
 
     def __color_select(self, context):
         match(context):
