@@ -7,7 +7,7 @@ from rcpilot.abstract_modules.singleton_meta import SingletonMeta
 
 class VisionBase(ABC, SingletonMeta):
     @abstractmethod
-    async def _get_package(self):
+    async def _share_package(self):
         pass
 
     @abstractmethod

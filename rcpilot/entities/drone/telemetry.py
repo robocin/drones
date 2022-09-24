@@ -15,7 +15,7 @@ class Telemetry(TelemetryBase):
     def __get_mavsdk_telemetry(self):
         pass
 
-    async def _get_package(self) -> TelemetryOutput:
+    async def _share_package(self) -> TelemetryOutput:
         return self._telemetry_output
 
     async def execute(self):

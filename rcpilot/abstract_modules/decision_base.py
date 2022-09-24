@@ -8,7 +8,7 @@ from rcpilot.packages.decision_output import DecisionOutput
 
 class DecisionBase(ABC, SingletonMeta):
     @abstractmethod
-    async def _get_package(self) -> DecisionOutput:
+    async def _share_package(self) -> DecisionOutput:
         pass
 
     @abstractmethod

@@ -15,7 +15,7 @@ class Odometry(OdometryBase):
     def __get_mavsdk_odometry(self):
         pass
 
-    async def _get_package(self) -> OdometryOutput:
+    async def _share_package(self) -> OdometryOutput:
         return self._odometry_output
 
     async def execute(self):

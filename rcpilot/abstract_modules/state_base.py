@@ -10,12 +10,12 @@ class StateBase(ABC, SingletonMeta):
     """
 
     @property
-    def context(self):
-        return self._context
+    def agent(self):
+        return self._agent
 
-    @context.setter
-    def context(self, context) -> None:
-        self._context = context
+    @agent.setter
+    def agent(self, agent) -> None:
+        self._agent = agent
 
     @abstractmethod
     def execute(self) -> None:

@@ -5,7 +5,7 @@ from rcpilot.packages.telemetry_output import TelemetryOutput
 
 class TelemetryBase(ABC, SingletonMeta):
     @abstractmethod
-    async def _get_package(self) -> TelemetryOutput:
+    async def _share_package(self) -> TelemetryOutput:
         pass
 
     @abstractmethod

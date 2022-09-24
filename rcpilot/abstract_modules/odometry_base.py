@@ -5,7 +5,7 @@ from rcpilot.packages.odometry_output import OdometryOutput
 
 class OdometryBase(ABC, SingletonMeta):
     @abstractmethod
-    async def _get_package(self) -> OdometryOutput:
+    async def _share_package(self) -> OdometryOutput:
         pass
 
     @abstractmethod
