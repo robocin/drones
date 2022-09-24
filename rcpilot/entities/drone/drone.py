@@ -2,20 +2,40 @@
 """
 
 import asyncio
+from mavsdk import System
 from rcpilot.entities.drone.odometry import Odometry
 from rcpilot.entities.drone.telemetry import Telemetry
 from sympy.geometry import Point3D
+from rcpilot.environment import Communication
 from rcpilot.packages.odometry_output import OdometryOutput
 
 from rcpilot.packages.telemetry_output import TelemetryOutput
+from rcpilot.utils.debugger import Debug
 
 
 class Drone:
     _estimated_global_position = Point3D(0, 0, 0)
+    _system: System = System()
     _telemetry = Telemetry()
     _odometry = Odometry()
+    _connection_state = None
     # TODO: Create battery class
     _battery = None
+
+    @property
+    def is_connected(self):
+        return self._connection_state is not None
+
+    async def connect_system(self):
+        Debug(self.CONTEXT)(f'Connecting to {Communication.CONN_STRING}.')
+        await self._system.connect(system_address=Communication.CONN_STRING)
+
+        async for state in self._system.core.connection_state():
+            if state.is_connected:
+                self._connection_state = state
+                Debug(self.CONTEXT)(f'Connected to system.')
+                break
+
 
     async def update(self):
         telemetry_output = await asyncio.create_task(self._odometry.execute())
@@ -28,3 +48,5 @@ class Drone:
             odometry_output.velocity.x, odometry_output.velocity.y, odometry_output.velocity.z)
 
         self._estimated_global_position = self._estimated_global_position + position_delta
+
+    CONTEXT = "DRONE"

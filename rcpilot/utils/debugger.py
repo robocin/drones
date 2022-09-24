@@ -23,6 +23,8 @@ class Debug:
         match(context):
             case "ROBOCIN_PILOT":
                 return Back.LIGHTGREEN_EX, Fore.BLACK
+            case "DRONE":
+                return Back.GREEN, Fore.BLACK
             case "ROBOCIN_VISION":
                 return Back.LIGHTBLUE_EX, Fore.BLACK
             case "ROBOCIN_DECISION":
