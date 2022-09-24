@@ -11,6 +11,7 @@ from rcpilot.modules.behavior.pilot import RobocinPilot
 async def init():
     robocin_pilot = RobocinPilot()
     await robocin_pilot.connect_to_drone()
+    await robocin_pilot.execute()
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

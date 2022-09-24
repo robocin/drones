@@ -7,22 +7,26 @@
 
 import asyncio
 import warnings
+from rcpilot.abstract_modules.singleton_meta import SingletonMeta
+from rcpilot.abstract_modules.state_base import StateBase
 
 from rcpilot.entities.drone.drone import Drone
 from rcpilot.environment import Communication
-from rcpilot.modules.behavior.state_machines.state_machine import StateMachine
+from rcpilot.modules.behavior.state_machines.preflight import PreflightSM
 from rcpilot.utils.debugger import Debug
 from rcpilot.utils.message_type import MessageType
 from rcpilot.utils.mission_type import MissionType
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
-class RobocinPilot:
-    _state_machine = StateMachine()
+class RobocinPilot(SingletonMeta):
+    _state = None
     _drone = Drone()
     _mission_type = MissionType.NO_MISSION
+    __enable = True
 
     def __init__(self, mission_type=MissionType.NO_MISSION):
         self._mission_type = mission_type
+        self.transition_to(PreflightSM())
 
     async def connect_to_drone(self):
         if self._drone.is_connected:
@@ -30,5 +34,15 @@ class RobocinPilot:
         else:
             await self._drone.connect_system()
 
+    def transition_to(self, state):
+
+        Debug(self.CONTEXT)(f"Context: Transition to {type(state).__name__}")
+        self._state = state
+        self._state.context = self
+
+    async def execute(self):
+        while self.__enable:
+            #self._drone.update()
+            await self._state.execute()
 
     CONTEXT = "ROBOCIN_PILOT"
