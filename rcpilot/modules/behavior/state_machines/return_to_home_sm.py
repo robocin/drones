@@ -6,7 +6,7 @@ from rcpilot.utils.debugger import Debug
 from rcpilot.utils.message_type import MessageType
 
 
-class ReturnToHome(StateBase):
+class ReturnToHomeSM(StateBase):
 
     _agent = None
 

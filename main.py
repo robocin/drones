@@ -6,10 +6,11 @@ Here the RobocinPilot is instantiated and the mission is started.
 
 import asyncio
 from rcpilot.modules.behavior.pilot import RobocinPilot
+from rcpilot.utils.mission_type import MissionType
 
 
 async def init():
-    robocin_pilot = RobocinPilot()
+    robocin_pilot = RobocinPilot(MissionType.TESTING)
     await robocin_pilot.connect_to_drone()
     await robocin_pilot.execute()
 

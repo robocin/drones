@@ -29,13 +29,17 @@ class RobocinPilot(SingletonMeta):
     _mission_type = MissionType.NO_MISSION
     __enable_execution = True
 
+    def __init__(self, mission_type=MissionType.NO_MISSION):
+        self._mission_type = mission_type
+        self.transition_to(PreflightSM())
+
     @property
     def system(self):
         return self._drone._system
 
-    def __init__(self, mission_type=MissionType.NO_MISSION):
-        self._mission_type = mission_type
-        self.transition_to(PreflightSM())
+    @property
+    def mission_type(self):
+        return self._mission_type
 
     def transition_to(self, state):
         Debug(self.CONTEXT)(f"Transition to {type(state).__name__}")
@@ -50,9 +54,8 @@ class RobocinPilot(SingletonMeta):
 
     async def execute(self):
         while self.__enable_execution:
-            if "ReturnToHome" == type(self._state).__name__:
+            if "ReturnToHomeSM" == type(self._state).__name__:
                 break
-            #self._drone.update()
             await self._state.execute()
 
     CONTEXT = "ROBOCIN_PILOT"
