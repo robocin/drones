@@ -5,10 +5,17 @@
 
 
 class Communication:
-    DEFAULT_PORT = 14540
-    DEFAULT_PROTOCOL = "udp"
-    CONN_STRING = "{}://:{}".format(
+    # DEFAULT_PORT = 14540
+    # DEFAULT_PROTOCOL = "udp"
+    # CONN_STRING = "{}://:{}".format(
+    #     DEFAULT_PROTOCOL, DEFAULT_PORT)
+
+    DEFAULT_PORT = "/dev/ttyACM0" 
+    DEFAULT_PROTOCOL = "serial"
+    CONN_STRING = "{}://{}".format(
         DEFAULT_PROTOCOL, DEFAULT_PORT)
+
+
 
 
 class Arena:
