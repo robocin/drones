@@ -14,6 +14,8 @@ class PreflightSM(StateBase):
     _agent = None
 
     async def execute(self) -> None:
+        Debug(MessageType.INFO)("Entering PreflightSM")
+
         Debug(MessageType.INFO)("Arming.")
         await self.agent.system.action.arm()
 

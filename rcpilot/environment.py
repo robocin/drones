@@ -3,19 +3,22 @@
 - Environment values
 """
 
-
 class Communication:
-    # DEFAULT_PORT = 14540
-    # DEFAULT_PROTOCOL = "udp"
-    # CONN_STRING = "{}://:{}".format(
-    #     DEFAULT_PROTOCOL, DEFAULT_PORT)
+    # BEWARE: if a new type of connection string is defined here,
+    #         a new corresponding if statement must be defined at
+    #         drone.py > class Drone > def resolve_connection_string
 
-    DEFAULT_PORT = "/dev/ttyACM0" 
-    DEFAULT_PROTOCOL = "serial"
-    CONN_STRING = "{}://{}".format(
-        DEFAULT_PROTOCOL, DEFAULT_PORT)
+    # SIMULATION CONSTANTS
+    SIMULATION_DEFAULT_PORT = 14540
+    SIMULATION_DEFAULT_PROTOCOL = "udp"
+    SIMULATION_CONN_STRING = "{}://:{}".format(
+        SIMULATION_DEFAULT_PROTOCOL, SIMULATION_DEFAULT_PORT)
 
-
+    # HARDWARE CONSTANTS
+    HARDWARE_DEFAULT_PORT = "/dev/ttyACM1" 
+    HARDWARE_DEFAULT_PROTOCOL = "serial"
+    HARDWARE_CONN_STRING = "{}://{}".format(
+        HARDWARE_DEFAULT_PROTOCOL, HARDWARE_DEFAULT_PORT)
 
 
 class Arena:
@@ -30,6 +33,9 @@ class Arena:
     GROUND_BASE = "GROUND_BASE"
     HOME_BASE = "HOME_BASE"
     UNKNOWN_BASE = "UNKNOWN_BASE"
+
+    def test():
+        print(HARDWARE_CONN_STRING)
 
 
 class Navigation:

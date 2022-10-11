@@ -12,6 +12,8 @@ from rcpilot.packages.odometry_output import OdometryOutput
 from rcpilot.packages.telemetry_output import TelemetryOutput
 from rcpilot.utils.debugger import Debug
 
+from rcpilot.utils.connection_type import ConnectionType
+
 
 class Drone:
     _estimated_global_position = Point3D(0, 0, 0)
@@ -26,16 +28,27 @@ class Drone:
     def is_connected(self):
         return self._connection_state is not None
 
-    async def connect_system(self):
-        Debug(self.CONTEXT)(f'Connecting to {Communication.CONN_STRING}.')
-        await self._system.connect(system_address=Communication.CONN_STRING)
+    async def connect_system(self, connectino_type):
+        connection_string = self.resolve_connection_string(connectino_type)
+
+        Debug(self.CONTEXT)(f'Connecting to {connection_string}.')
+        await self._system.connect(connection_string)
 
         async for state in self._system.core.connection_state():
             if state.is_connected:
                 self._connection_state = state
                 Debug(self.CONTEXT)(f'Connected to system.')
                 break
+    
+    def resolve_connection_string(self, connection_type):
+        # BEWARE: when defining a new connection type, first a new enum must be defined
+        #         in environment.py > class Communication, then, a new corresponding
+        #         if statement must be declared here
 
+        if(connection_type == ConnectionType.SIMULATION):
+            return Communication.SIMULATION_CONN_STRING
+        elif(connection_type == ConnectionType.SIMULATION):
+            return Communication.HARDWARE_CONN_STRING
 
     async def update(self):
         telemetry_output = await asyncio.create_task(self._odometry.execute())
