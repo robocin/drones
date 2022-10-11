@@ -47,7 +47,7 @@ class Drone:
 
         if(connection_type == ConnectionType.SIMULATION):
             return Communication.SIMULATION_CONN_STRING
-        elif(connection_type == ConnectionType.SIMULATION):
+        elif(connection_type == ConnectionType.HARDWARE):
             return Communication.HARDWARE_CONN_STRING
 
     async def update(self):
