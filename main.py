@@ -4,8 +4,9 @@ This is the main module of the drone-autopilot project.
 Here the RobocinPilot is instantiated and the mission is started.
 """
 
-import asyncio
-from rcpilot.modules.behavior.pilot import RobocinPilot
+#import asyncio
+#from rcpilot.modules.behavior.pilot import RobocinPilot
+from rcpilot.modules.vision import Vision
 
 
 async def init():
@@ -14,5 +15,7 @@ async def init():
     await robocin_pilot.execute()
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(init())
+    #loop = asyncio.get_event_loop()
+    #loop.run_until_complete(init())
+    vision = Vision()
+    vision.execute()
