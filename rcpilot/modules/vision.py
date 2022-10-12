@@ -9,11 +9,14 @@ MIN_SCORE = 0
 WIDTH = 300
 HEIGHT = 300
 
-class Vision:
+class Vision(VisionBase):
     def __init__(self) :
         pass
 
-    def execute(self):
+    async def _share_package(self):
+        pass
+
+    async def execute(self):
         img_array = self._get_image()
         output_dict = self._get_output_dict()
         output = self._filter_boxes(output_dict)
