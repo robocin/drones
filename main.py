@@ -11,7 +11,7 @@ from rcpilot.utils.connection_type import ConnectionType
 
 
 async def init():
-    robocin_pilot = RobocinPilot(MissionType.TESTING, ConnectionType.SIMULATION)
+    robocin_pilot = RobocinPilot(MissionType.TESTING, ConnectionType.HARDWARE)
     await robocin_pilot.connect_to_drone()
     await robocin_pilot.execute()
 
