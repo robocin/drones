@@ -10,7 +10,6 @@ import warnings
 from rcpilot.abstract_modules.singleton_meta import SingletonMeta
 from rcpilot.abstract_modules.state_base import StateBase
 from rcpilot.abstract_modules.vision_base import VisionBase
-
 from rcpilot.entities.drone.drone import Drone
 from rcpilot.environment import Communication
 from rcpilot.modules.behavior.state_machines.preflight import PreflightSM

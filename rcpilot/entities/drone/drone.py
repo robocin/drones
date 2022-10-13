@@ -8,12 +8,9 @@ from rcpilot.entities.drone.telemetry import Telemetry
 from sympy.geometry import Point3D
 from rcpilot.environment import Communication
 from rcpilot.packages.odometry_output import OdometryOutput
-
 from rcpilot.packages.telemetry_output import TelemetryOutput
 from rcpilot.utils.debugger import Debug
-
 from rcpilot.utils.connection_type import ConnectionType
-
 from rcpilot.utils.enable_mavlink_connection import enable_mavlink_connection
 
 
