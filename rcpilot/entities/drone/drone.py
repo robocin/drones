@@ -46,10 +46,6 @@ class Drone:
             enable_mavlink_connection()
 
     def resolve_connection_string(self, connection_type):
-        # BEWARE: when defining a new connection type, first a new enum must be defined
-        #         in environment.py > class Communication, then, a new corresponding
-        #         if statement must be declared here
-
         if(connection_type == ConnectionType.SIMULATION):
             return Communication.SIMULATION_CONN_STRING
         elif(connection_type == ConnectionType.HARDWARE):

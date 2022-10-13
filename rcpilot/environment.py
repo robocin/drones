@@ -4,9 +4,6 @@
 """
 
 class Communication:
-    # BEWARE: if a new type of connection string is defined here,
-    #         a new corresponding if statement must be defined at
-    #         drone.py > class Drone > def resolve_connection_string
 
     SIMULATION_DEFAULT_PORT = 14540
     SIMULATION_DEFAULT_PROTOCOL = "udp"
