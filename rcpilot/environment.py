@@ -8,13 +8,11 @@ class Communication:
     #         a new corresponding if statement must be defined at
     #         drone.py > class Drone > def resolve_connection_string
 
-    # SIMULATION CONSTANTS
     SIMULATION_DEFAULT_PORT = 14540
     SIMULATION_DEFAULT_PROTOCOL = "udp"
     SIMULATION_CONN_STRING = "{}://:{}".format(
         SIMULATION_DEFAULT_PROTOCOL, SIMULATION_DEFAULT_PORT)
 
-    # HARDWARE CONSTANTS
     HARDWARE_DEFAULT_PORT = "/dev/ttyACM0" 
     HARDWARE_DEFAULT_PROTOCOL = "serial"
     HARDWARE_CONN_STRING = "{}://{}".format(
