@@ -32,10 +32,6 @@ class Arena:
     HOME_BASE = "HOME_BASE"
     UNKNOWN_BASE = "UNKNOWN_BASE"
 
-    def test():
-        print(HARDWARE_CONN_STRING)
-
-
 class Navigation:
     MAX_SPEED_MS = 1
     MIN_SPEED_MS = 0.2
