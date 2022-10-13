@@ -28,7 +28,7 @@ class Drone:
         return self._connection_state is not None
 
     async def connect_system(self, connection_type):
-        self.init_connection_port()
+        self.init_connection_port(connection_type)
 
         connection_string = self.resolve_connection_string(connection_type)
 
@@ -41,8 +41,9 @@ class Drone:
                 Debug(self.CONTEXT)(f'Connected to system.')
                 break
 
-    def init_connection_port(self):
-        enable_mavlink_connection()
+    def init_connection_port(self, connection_type):
+        if(connection_type == ConnectionType.HARDWARE):
+            enable_mavlink_connection()
 
     def resolve_connection_string(self, connection_type):
         # BEWARE: when defining a new connection type, first a new enum must be defined
