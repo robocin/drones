@@ -10,7 +10,6 @@ import warnings
 from rcpilot.abstract_modules.singleton_meta import SingletonMeta
 from rcpilot.abstract_modules.state_base import StateBase
 from rcpilot.abstract_modules.vision_base import VisionBase
-
 from rcpilot.entities.drone.drone import Drone
 from rcpilot.environment import Communication
 from rcpilot.modules.behavior.state_machines.preflight import PreflightSM
@@ -19,18 +18,21 @@ from rcpilot.modules.behavior.state_machines.preflight import PreflightSM
 from rcpilot.utils.debugger import Debug
 from rcpilot.utils.message_type import MessageType
 from rcpilot.utils.mission_type import MissionType
+from rcpilot.utils.connection_type import ConnectionType
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 class RobocinPilot(SingletonMeta):
     _state = None
-    _drone = Drone()
     # _vision = Vision()
     # _decision = Decision()
     _mission_type = MissionType.NO_MISSION
+    _connection_type = ConnectionType.SIMULATION
     __enable_execution = True
+    _drone = Drone()
 
-    def __init__(self, mission_type=MissionType.NO_MISSION):
+    def __init__(self, mission_type=MissionType.NO_MISSION, connection_type=ConnectionType.SIMULATION):
         self._mission_type = mission_type
+        self._connection_type = connection_type
         self.transition_to(PreflightSM())
 
     @property
@@ -41,6 +43,10 @@ class RobocinPilot(SingletonMeta):
     def mission_type(self):
         return self._mission_type
 
+    @property
+    def connection_type(self):
+        return self._connection_type
+
     def transition_to(self, state):
         Debug(self.CONTEXT)(f"Transition to {type(state).__name__}")
         self._state = state
@@ -50,7 +56,7 @@ class RobocinPilot(SingletonMeta):
         if self._drone.is_connected:
             Debug(MessageType.WARNING)(f'Tried to connect but connection already established.')
         else:
-            await self._drone.connect_system()
+            await self._drone.connect_system(self._connection_type)
 
     async def execute(self):
         while self.__enable_execution:

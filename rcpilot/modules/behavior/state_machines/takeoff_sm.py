@@ -16,8 +16,11 @@ class TakeoffSM(StateBase):
 
     async def execute(self) -> None:
         Debug(MessageType.INFO)("Taking off.")
+
         await self.agent.system.action.takeoff()
+
         await asyncio.sleep(2)
+
         if self.agent.mission_type == MissionType.TESTING:
             self.agent.transition_to(HoverSM(seconds=10))
         else:
