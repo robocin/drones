@@ -46,3 +46,8 @@ class Takeoff:
 class Land:
     TIMEOUT_SECONDS = 5
     SPEED_MS = 1
+
+class Vision:
+    IMAGE_WIDTH = 640
+    IMAGE_HEIGHT = 480
+    SCORE_THRESHOLD = 0.7

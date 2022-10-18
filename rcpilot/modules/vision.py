@@ -1,123 +1,100 @@
 """Created by felipe-nunes on 22/09/2022
 """
+import time
 
+import cv2
 from rcpilot.abstract_modules.vision_base import VisionBase
+from rcpilot.packages.vision_output import VisionOutput
 import numpy as np
 from PIL import Image
 
-MIN_SCORE = 0
-WIDTH = 300
-HEIGHT = 300
+from jetson_inference import detectNet
+from jetson_utils import videoSource, videoOutput
+
+from rcpilot.environment import Vision
+
+WIDTH = Vision.IMAGE_WIDTH
+HEIGHT = Vision.IMAGE_HEIGHT
+THRESHOLD = Vision.SCORE_THRESHOLD
 
 class Vision(VisionBase):
     def __init__(self) :
-        pass
+        self._output = None
 
-    async def _share_package(self):
-        pass
+        self.net = detectNet(argv=['--model=rcpilot/modules/models/ssd-mobilenet.onnx', '--labels=rcpilot/modules/models/labels.txt', '--input-blob=input_0', '--output-cvg=scores', '--output-bbox=boxes'], threshold=0.7)
 
-    async def execute(self):
-        img_array = self._get_image()
-        output_dict = self._get_output_dict()
-        output = self._filter_boxes(output_dict)
+        #image is 640x480
+        self.camera = videoSource("/dev/video0", [f'--input-width={WIDTH}', f'--input-height={HEIGHT}'])
 
-        vectors = self.create_vectors(img_array, output)
+        self.display = videoOutput("display://0")
 
 
-    def _get_image(self):
-        img = Image.open('rcpilot/modules/test_images/img1.jpg')
-        #img = self._resize_img(img)
+    def _share_package(self):
+        print(self._output)
 
-        img_array = np.asarray(img)
 
-        return img_array
+    def execute(self):
+        #img, vectors = self._share_package()
+        try:
+            img = self.camera.Capture()
+            detections = self.net.Detect(img)
+            filtered_detections = self._filter_detections(detections)
+            img, vectors = self.create_vectors(img, filtered_detections)
+            self._output = []
+            for vector in vectors:  
+                self._output.append(VisionOutput(
+                    vector[0],
+                    vector[1],
+                    vector[2],
+                    vector[3]))
 
-    def _get_output_dict(self):
-        output_dict = {
-            'num_detections': 3, 
-            # bounding boxes - (y_min, x_min, y_max, x_max)
-            'detection_boxes': [[106, 213, 332, 363], [184, 10, 417, 273], [10, 100, 20, 123]], 
-            # Realiability parameters
-            'detection_scores': [0.89, 0.88, 0.4],
-            # 2 - small_base; 1 - larger_base; 3 - smaller_base
-            'detection_classes': [2, 1, 3]
-        }
-        return output_dict
+            # self.display.Render(img)
+            # self.display.SetStatus("Object Detection | Network {:.0f} FPS".format(self.net.GetNetworkFPS()))
+        except:
+            self._output = None
+            
 
-    def _resize_img(self, img):
-        # cv2.resize(img, dsize=(54, 140), interpolation=cv2.INTER_CUBIC)
-        img_resized = img.resize((WIDTH, HEIGHT))
+            
+
+    def _filter_detections(self, detections):
+        filtered_detections = []
+        for detection in detections:
+            if detection.Confidence > THRESHOLD:
+                filtered_detections.append(detection)
         
-        return img_resized
-
-
-    def _filter_boxes(self, output_dict):
-        output = {
-            'classes': [],
-            'boxes': [],
-            'scores': []
-        }
-        for i in range(output_dict['num_detections']):
-            if output_dict['detection_scores'][i] >= MIN_SCORE:
-                output['scores'].append(output_dict['detection_scores'][i])
-                output['boxes'].append(output_dict['detection_boxes'][i])
-                output['classes'].append(output_dict['detection_classes'][i])
-        
-        return output
+        return filtered_detections
     
-    def create_vectors(self, img_array, output):
-        # TODO: verify img_array shape format
-        width, height, channels = img_array.shape
+    def create_vectors(self, img, detections):
         
         vectors = []
 
         # image center
-        origin = (width/2, height/2)
+        origin = np.array([WIDTH/2, HEIGHT/2])
 
-        axis_x = (origin[0]+10, origin[1]) # 10 = arbitrary number to create axis aligned vector
+        axis_x = np.array([10, 0]) # 10 = arbitrary number to create axis aligned vector
 
-        for i in range(len(output['classes'])):
-            y_min, x_min, y_max, x_max = output['boxes'][i]
-
-            box_center = ((x_max + x_min)/2, (y_max + y_min)/2)
-            # class, score, size, angle
-            vectors.append((output['classes'][i], 
-                            output['scores'][i],
-                            self._vec_size(origin, box_center),
-                            self._get_angle(box_center, axis_x, origin)))
+        for detection in detections:
+            # class, score, norm, angle
+            relative_center = np.array(detection.Center) - origin
+            # ClassID - 1 = large, 2 = small
+            vectors.append((detection.ClassID, 
+                            detection.Confidence,
+                            np.linalg.norm(relative_center),
+                            self._get_angle(relative_center, axis_x)))
         
         print(vectors)
-        return vectors
+        return img, vectors
 
-    #return vector norm
-    def _vec_size(self, origin, dest):
-        x = dest[0]-origin[0]
-        y = dest[1]-origin[1]
+    def _get_angle(self, box_center, axis_x):
 
-        return np.sqrt(x*x + y*y)
-
-    def _get_angle(self, point, axis_x, origin):
-        point = list(point)
-        point[0] -= origin[0]
-        point[1] -= origin[1]
-
-        axis_x = list(axis_x)
-        axis_x[0] -= origin[0]
-        axis_x[1] -= origin[1]
-
-        x1, y1 = point
-        x2, y2 = axis_x
-
-
-        dot_product = x1*x2 + y1*y2
-        size1 =  np.linalg.norm(point)
+        size1 =  np.linalg.norm(box_center)
         size2 =  np.linalg.norm(axis_x)
 
-        res = float(dot_product) / (size1*size2)
+        res = float(np.dot(box_center, axis_x)) / (size1*size2)
         angle = np.arccos(res)
 
         # 3º and 4º quadrant
-        if(y1 > 0):
+        if(box_center[1] > 0):
             angle = 2*np.pi - angle 
 
         return angle
