@@ -38,7 +38,6 @@ def run(command):
 def check_dependencies():
     raise NotImplementedError
 
-
 def install_px4_autopilot():
     cprint('\33[35m')('[DOWNLOADING] PX4-Autopilot...')
     try:
@@ -98,13 +97,13 @@ def install_comm_mavsdk():
         cprint('\x1B[32m')('[OK] mavsdk installed')
 
 
+
 def move_everything_except_script():
     run('ls | grep -s -L setup * | xargs -I {} sudo mv {} ..')
 
 
 def install_sequence():
     run('cd ..')
-    
     # Check permissions
     check_is_sudo()
 
@@ -117,7 +116,7 @@ def install_sequence():
     # Communication libraries
     install_comm_mavlink()
     install_comm_mavsdk
-    
+
     # Move files
     run('cd scripts/')
 

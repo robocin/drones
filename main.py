@@ -4,15 +4,24 @@ This is the main module of the drone-autopilot project.
 Here the RobocinPilot is instantiated and the mission is started.
 """
 
-import asyncio
-#from rcpilot.modules.behavior.pilot import RobocinPilot
 from rcpilot.modules.vision import Vision
+from rcpilot.modules.behavior.pilot import RobocinPilot
+from rcpilot.utils.mission_type import MissionType
+from rcpilot.utils.connection_type import ConnectionType
 import time
+import asyncio
+
 
 async def init():
     #robocin_pilot = RobocinPilot()
-    vision = Vision()
-    await vision.execute()
+    #vision = Vision()
+    #await vision.execute()
+    #await robocin_pilot.connect_to_drone()
+    #await robocin_pilot.execute()
+    
+    #######
+    
+    #robocin_pilot = RobocinPilot(MissionType.TESTING, ConnectionType.HARDWARE)
     #await robocin_pilot.connect_to_drone()
     #await robocin_pilot.execute()
 

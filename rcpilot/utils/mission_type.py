@@ -10,8 +10,7 @@ class MissionType:
     MISSION_3 = 3
     MISSION_4 = 4
     TECHNICAL_CHALLENGE = 5
-    SEARCH = 6
-    THRUST = 7
+    TESTING = 6
 
     @staticmethod
     def as_string(mission):

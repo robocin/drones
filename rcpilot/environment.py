@@ -3,12 +3,17 @@
 - Environment values
 """
 
-
 class Communication:
-    DEFAULT_PORT = 14540
-    DEFAULT_PROTOCOL = "udp"
-    CONN_STRING = "{}://:{}".format(
-        DEFAULT_PROTOCOL, DEFAULT_PORT)
+
+    SIMULATION_DEFAULT_PORT = 14540
+    SIMULATION_DEFAULT_PROTOCOL = "udp"
+    SIMULATION_CONN_STRING = "{}://:{}".format(
+        SIMULATION_DEFAULT_PROTOCOL, SIMULATION_DEFAULT_PORT)
+
+    HARDWARE_DEFAULT_PORT = "/dev/ttyACM0" 
+    HARDWARE_DEFAULT_PROTOCOL = "serial"
+    HARDWARE_CONN_STRING = "{}://{}".format(
+        HARDWARE_DEFAULT_PROTOCOL, HARDWARE_DEFAULT_PORT)
 
 
 class Arena:
@@ -23,7 +28,6 @@ class Arena:
     GROUND_BASE = "GROUND_BASE"
     HOME_BASE = "HOME_BASE"
     UNKNOWN_BASE = "UNKNOWN_BASE"
-
 
 class Navigation:
     MAX_SPEED_MS = 1

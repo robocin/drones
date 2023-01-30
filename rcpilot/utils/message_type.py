@@ -6,7 +6,7 @@ class MessageType:
     """
     WARNING = 0
     ERROR = 1
-    LOG = 2
+    INFO = 2
 
     @staticmethod
     def as_string(message):
@@ -16,7 +16,7 @@ class MessageType:
             case 1:
                 return "ERROR"
             case 2:
-                return "LOG"
+                return "INFO"
             case _:
                 return message
      
