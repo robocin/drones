@@ -9,6 +9,7 @@ from rcpilot.modules.vision import Vision
 from rcpilot.modules.behavior.pilot import RobocinPilot
 from rcpilot.utils.mission_type import MissionType
 from rcpilot.utils.connection_type import ConnectionType
+
 import time
 import asyncio
 from dronekit import connect, VehicleMode
