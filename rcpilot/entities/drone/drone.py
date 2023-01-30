@@ -8,9 +8,10 @@ from rcpilot.entities.drone.telemetry import Telemetry
 from sympy.geometry import Point3D
 from rcpilot.environment import Communication
 from rcpilot.packages.odometry_output import OdometryOutput
-
 from rcpilot.packages.telemetry_output import TelemetryOutput
 from rcpilot.utils.debugger import Debug
+from rcpilot.utils.connection_type import ConnectionType
+from rcpilot.utils.enable_mavlink_connection import enable_mavlink_connection
 
 
 class Drone:
@@ -26,9 +27,13 @@ class Drone:
     def is_connected(self):
         return self._connection_state is not None
 
-    async def connect_system(self):
-        Debug(self.CONTEXT)(f'Connecting to {Communication.CONN_STRING}.')
-        await self._system.connect(system_address=Communication.CONN_STRING)
+    async def connect_system(self, connection_type):
+        self.init_connection_port(connection_type)
+
+        connection_string = self.resolve_connection_string(connection_type)
+
+        Debug(self.CONTEXT)(f'Connecting to {connection_string}.')
+        await self._system.connect(connection_string)
 
         async for state in self._system.core.connection_state():
             if state.is_connected:
@@ -36,6 +41,15 @@ class Drone:
                 Debug(self.CONTEXT)(f'Connected to system.')
                 break
 
+    def init_connection_port(self, connection_type):
+        if(connection_type == ConnectionType.HARDWARE):
+            enable_mavlink_connection()
+
+    def resolve_connection_string(self, connection_type):
+        if(connection_type == ConnectionType.SIMULATION):
+            return Communication.SIMULATION_CONN_STRING
+        elif(connection_type == ConnectionType.HARDWARE):
+            return Communication.HARDWARE_CONN_STRING
 
     async def update(self):
         telemetry_output = await asyncio.create_task(self._odometry.execute())

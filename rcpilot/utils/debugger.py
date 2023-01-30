@@ -37,7 +37,7 @@ class Debug:
                 return Back.LIGHTYELLOW_EX, Fore.BLACK
             case MessageType.ERROR:
                 return Back.LIGHTRED_EX, Fore.BLACK
-            case MessageType.LOG:
+            case MessageType.INFO:
                 return Back.LIGHTBLACK_EX, Fore.WHITE
             case _ :
                 return Back.LIGHTBLACK_EX, Fore.WHITE
