@@ -3,5 +3,8 @@
 
 
 class VisionOutput:
-    _angle = 0
-    _base_accuracy = 0.0
+    def __init__(self, class_id, score, norm, angle):
+        self.class_id = class_id
+        self.score = score
+        self.norm = norm 
+        self.angle = angle
