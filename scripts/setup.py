@@ -31,6 +31,7 @@ def is_sudo():
 
 
 def run(command):
+    cprint('\x1b[97m')()
     subprocess.check_call(command, shell=True, stdout=sys.stdout, stderr=subprocess.STDOUT)
 
 
@@ -38,7 +39,7 @@ def check_dependencies():
     raise NotImplementedError
 
 def install_px4_autopilot():
-    cprint('\x1B[34m')('installing PX4-Autopilot...')
+    cprint('\33[35m')('[DOWNLOADING] PX4-Autopilot...')
     try:
         run('git clone https://github.com/PX4/PX4-Autopilot.git --recursive')
     except:
@@ -48,7 +49,7 @@ def install_px4_autopilot():
 
 
 def build_px4_autopilot():
-    cprint('\x1B[34m')('building PX4-Autopilot...')
+    cprint('\33[33m')('[BUILDING] PX4-Autopilot...')
     try:
         run('bash ./PX4-Autopilot/Tools/setup/ubuntu.sh')
     except:
@@ -58,7 +59,7 @@ def build_px4_autopilot():
 
 
 def download_qgroundcontrol():
-    cprint('\x1B[34m')('installing QGroundControl...')
+    cprint('\33[35m')('[DOWNLOADING] QGroundControl...')
     try:
         run('wget https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage')
     except:
@@ -67,7 +68,7 @@ def download_qgroundcontrol():
         cprint('\x1B[32m')('[OK] QGroundControl downloaded')
 
 def update_qgroundcontrol_permissions():
-    cprint('\x1B[34m')('updating QGroundControl permissions...')
+    cprint('\x1B[34m')('[UPDATING] QGroundControl permissions...')
     try:
         run('chmod +x ./QGroundControl.AppImage')
     except:
@@ -77,9 +78,9 @@ def update_qgroundcontrol_permissions():
 
 
 def install_comm_mavlink():
-    cprint('\x1B[34m')('installing mavlink...')
+    cprint('\x1B[34m')('[INSTALLING] pymavlink...')
     try:
-        run('pip3 install mavlink')
+        run('pip3 install pymavlink')
     except:
         cprint('\x1B[31m')('[ERROR] could not install mavlink')
     else:
@@ -87,7 +88,7 @@ def install_comm_mavlink():
 
 
 def install_comm_mavsdk():
-    cprint('\x1B[34m')('installing mavsdk...')
+    cprint('\x1B[34m')('[INSALLING] mavsdk...')
     try:
         run('pip3 install mavsdk')
     except:
@@ -96,7 +97,13 @@ def install_comm_mavsdk():
         cprint('\x1B[32m')('[OK] mavsdk installed')
 
 
+
+def move_everything_except_script():
+    run('ls | grep -s -L setup * | xargs -I {} sudo mv {} ..')
+
+
 def install_sequence():
+    run('cd ..')
     # Check permissions
     check_is_sudo()
 
@@ -110,6 +117,9 @@ def install_sequence():
     install_comm_mavlink()
     install_comm_mavsdk
 
+    # Move files
+    run('cd scripts/')
+
 
 if __name__ == '__main__':
-    check_is_sudo()
+    install_sequence()
