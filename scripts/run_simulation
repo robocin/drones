@@ -1,0 +1,11 @@
+#!/bin/bash
+
+gnome-terminal --title="Gazebo11" -- gazebo --verbose /home/mateus/Projects/robocin/drones/ardupilot_gazebo/worlds/iris_arducopter_runway.world
+
+gnome-terminal --title="Ardupilot" -- sim_vehicle.py -v ArduCopter -f gazebo-iris --no-mavproxy
+
+sleep 3
+
+gnome-terminal --title="MavProxy" -- mavproxy.py --master tcp:127.0.0.1:5760 --out 127.0.0.1:14550 --out 127.0.0.1:14551
+
+gnome-terminal --title="QGroundControl" -- qgroundcontrol
