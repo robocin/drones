@@ -1,0 +1,13 @@
+-e .
+dronekit
+pyserial
+numpy
+urllib3
+tensorboard
+opencv-python
+pillow
+pyzbar
+--extra-index-url https://download.pytorch.org/whl/cu117
+torch
+torchvision
+argparse

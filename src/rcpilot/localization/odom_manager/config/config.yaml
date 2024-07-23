@@ -1,0 +1,32 @@
+tmux:
+  session_name: "Drone_Manager"
+  window_name: "Drone_Manager_Window"
+
+zed:
+  setup_bash_path: "/home/drones/zed_ros/devel/setup.bash" 
+  launch_file: "zed2i.launch"
+  config_path: ""
+
+vins_fusion:
+  stereo_config_path:
+  mono_config_path:
+
+open_vins:
+  stereo_config_path:
+  mono_config_path:
+
+mavlink_router:
+  master_ip: "127.0.0.1"
+  master_port: "14550"
+  out1_ip: "192.168.0.105"
+  out1_port: "14563"
+  out2_ip: "127.0.0.1"
+  out2_port: "14562"
+
+mavros:
+  fcu_url: "/dev/ttyACM0:57600"
+  gcs_url: "udp://@127.0.0.1"
+  odom_topic: "/mavros/vision_pose/pose"
+
+neural_network:
+  weights_path:
